@@ -17,11 +17,23 @@ function Index() {
         setValues({...values, [name]: value})
         
     }
-    // onSubmit values access input values
-    const onhandleSubmit = (e) => {
-        e.preventDefault();
 
-        console.log(values)
+    
+    const onhandleSubmit = (e) =>{
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: values.username,
+                password: values.password,
+                confirmpassword: values.confirmpassword,
+                email: values.email,
+                gender: values.gender,
+            })
+        };
+          fetch('http://localhost:8080/register', requestOptions)
+            .then(response => response.json())
+            .then(data => console.log(data))
     }
 
     
@@ -33,7 +45,7 @@ function Index() {
             <div className="row justify-content-center  ">
                <div className="col-md-8">
                     <div className="form">
-                        <form onSubmit={onhandleSubmit}>
+                        <form  onSubmit={onhandleSubmit}>
                             <div className="mb-3">
                                 <label htmlFor="username">Username</label>
                                 <input type="text" className="form-control" placeholder="Username" id="username" name="username" value={values.username} onChange={onhandleChange}/>
@@ -51,6 +63,7 @@ function Index() {
                                 <input type="email" className="form-control" placeholder="Email" id="email" name="email" value={values.email}  onChange={onhandleChange}/>
                             </div>
                             <div className="mb-3">
+                                <label htmlFor="">Gender</label>
                                 <div className="form-check form-check-inline">
                                     <input className="form-check-input" type="radio" name="gender" id="inlineRadio1" value="Male"  onChange={onhandleChange}/>
                                     <label className="form-check-label" htmlFor="inlineRadio1">Male</label>
@@ -64,7 +77,7 @@ function Index() {
                                     <label className="form-check-label" htmlFor="inlineRadio3">Others</label>
                                 </div>
                             </div>
-                            <button className="btn btn-primary" type="submit">Submit</button>
+                            <button className="btn btn-primary" type="submit" >Submit</button>
                         </form>
                   </div>
                </div>
